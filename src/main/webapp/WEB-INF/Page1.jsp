@@ -10,6 +10,7 @@
 
     <body>
         <p>Veuillez rentrer vos infrormations personnelles!</p>
+        <form method="post" action="Page1">
         <p>
             <label for="Nom">Nom: </label>
             <input type = "text" id="Nom" name="Nom" />
@@ -52,6 +53,7 @@
             </select>
         </p>
         <p><input type = "submit" value="Valider" /></p>
+        </form>
         <p><label for="file">choisissez un fichier .csv:</label>
 
             <input type="file"
