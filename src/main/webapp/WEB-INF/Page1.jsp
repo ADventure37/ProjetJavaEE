@@ -32,7 +32,7 @@
         <p>
             <label for="sitePrecedent">Site Précédent:</label>
 
-            <select name="site" id="sitePrecedent">
+            <select name="sitePrecedent" id="sitePrecedent">
                 <option value="">Sélectionner un site</option>
                 <option value="Angers">Angers</option>
                 <option value="Dijon">Dijon</option>
@@ -42,7 +42,7 @@
         <p>
             <label for="formationPrecedente">Formation précédente:</label>
 
-            <select name="formation" id="formationPrecedente">
+            <select name="formationPrecedente" id="formationPrecedente">
                 <option value="">Sélectionner une formation</option>
                 <option value="MPSI">MPSI</option>
                 <option value="PCSI">PCSI</option>
@@ -63,5 +63,7 @@
         <p>
             <label for="page2">Page pour gérer les équipes: </label>
             <input type="button" id="page2" onclick="window.location.href = 'Page2';" value="Cliquez" /></p>
+
+        <c:if test="${!empty eleves}"><p><c:out value = "${eleves}"/></p></c:if>
     </body>
 </html>

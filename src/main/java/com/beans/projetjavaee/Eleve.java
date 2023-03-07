@@ -15,7 +15,12 @@ public class Eleve {
         this.setSitePrecedent(sitePrecedent);
         this.setFormationPrecedente(formationPrecedente);
         this.setEquipe(null);
+    }
 
+    public String toString(){
+        String message = ""+ this.getNom()+ " " + this.getPrenom() + "  " +this.getGenre() + " "
+                + this.getSitePrecedent()+ " " + this.getFormationPrecedente();
+        return message;
     }
 
     public String getNom() {
