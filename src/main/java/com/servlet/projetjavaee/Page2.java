@@ -36,6 +36,7 @@ public class Page2 extends HttpServlet{
             String nbEquipe = request.getParameter("Nombre");
             createXEquipe(nbEquipe);
             request.setAttribute("equipes", equipes);
+
         } else if (action.equals("Afficher les équipes")) {
 
         }
