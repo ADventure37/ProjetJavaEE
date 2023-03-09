@@ -52,14 +52,17 @@
                 <option value="autre">Autre</option>
             </select>
         </p>
-        <p><input type = "submit" value="Valider" /></p>
+        <p><input type = "submit" name= "bouton" value="Valider" /></p>
         </form>
+        <form>
         <p><label for="file">choisissez un fichier .csv:</label>
 
             <input type="file"
                    id="file" name="file"
                    accept="file/csv">
         </p>
+        <p><input type = "submit" name= "bouton" value="Valider le fichier" /></p>
+        </form>
         <p>
             <label for="page2">Page pour gérer les équipes: </label>
             <input type="button" id="page2" onclick="window.location.href = 'Page2';" value="Cliquez" /></p>

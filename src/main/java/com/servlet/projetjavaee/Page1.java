@@ -29,17 +29,28 @@ public class Page1 extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
-        String nom = request.getParameter("Nom");
-        String prenom = request.getParameter("Prenom");
-        String genre = request.getParameter("genre");
-        String site = request.getParameter("sitePrecedent");
-        String formation = request.getParameter("formationPrecedente");
-        eleves.add(new Eleve(nom, prenom, genre, site, formation));
-        System.out.println(eleves.get(0).toString());
-
-        request.setAttribute("eleves", eleves);
+        String action = request.getParameter("bouton");
+        System.out.println(action);
+        if("Valider".equals(action)){
+            System.out.println("2");
+            String nom = request.getParameter("Nom");
+            String prenom = request.getParameter("Prenom");
+            String genre = request.getParameter("genre");
+            String site = request.getParameter("sitePrecedent");
+            String formation = request.getParameter("formationPrecedente");
+            eleves.add(new Eleve(nom, prenom, genre, site, formation));
+            System.out.println(eleves.get(0).toString());
+            request.setAttribute("eleves", eleves);
+        }
+        System.out.println("3");
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page1.jsp").forward(request, response);
     }
 
+    public List<Eleve> getEleves() {
+        return eleves;
+    }
 
+    public void setEleves(List<Eleve> eleves) {
+        this.eleves = eleves;
+    }
 }
