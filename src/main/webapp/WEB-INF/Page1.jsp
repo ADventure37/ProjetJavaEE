@@ -67,6 +67,5 @@
             <label for="page2">Page pour gérer les équipes: </label>
             <input type="button" id="page2" onclick="window.location.href = 'Page2';" value="Cliquez" /></p>
 
-        <c:if test="${!empty eleves}"><p><c:out value = "${eleves}"/></p></c:if>
     </body>
 </html>

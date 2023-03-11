@@ -19,10 +19,17 @@
     <input type = "text" id="Nombre" name="Nombre" />
     <input type = "submit" name="bouton" value="Créer les équipes" />
     <c:forEach items="${ equipes }" var="equipe" varStatus="status">
-        <p><c:out value="${ equipe.nom }" /> </p>
+        <p><c:out value="${ equipe.nom }:" /> </p>
     </c:forEach>
+
     </p>
 </form>
+<p>
+    <label for="Nombre">Liste des élèves sans équipe: </label>
+    <c:forEach items="${ sessionScope.eleves }" var="eleves" varStatus="status">
+            <p><c:out value="${ eleves.nom } ${eleves.prenom}" /> </p>
+    </c:forEach>
+</p>
 <p><label for="page1">Page pour ajouter des élèves: </label>
     <input type="button" id="page1" onclick="window.location.href = 'Page1';" value="Cliquez" /></p>
 </body>

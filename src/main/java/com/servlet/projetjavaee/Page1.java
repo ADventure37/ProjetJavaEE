@@ -1,6 +1,7 @@
 package com.servlet.projetjavaee;
 
 import com.beans.projetjavaee.Eleve;
+import com.dtb.ConnectMySQL;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,6 +19,9 @@ public class Page1 extends HttpServlet{
 
     public Page1() {
         super();
+        for (int i = 0; i<5; i++){
+            eleves.add(new Eleve("Deloy", "Adrien", "Homme", "Angers", "MPSI"));
+        }
     }
 
     @Override
@@ -39,8 +43,7 @@ public class Page1 extends HttpServlet{
             String site = request.getParameter("sitePrecedent");
             String formation = request.getParameter("formationPrecedente");
             eleves.add(new Eleve(nom, prenom, genre, site, formation));
-            System.out.println(eleves.get(0).toString());
-            request.setAttribute("eleves", eleves);
+            request.getSession().setAttribute("eleves", eleves);
         }
         System.out.println("3");
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page1.jsp").forward(request, response);

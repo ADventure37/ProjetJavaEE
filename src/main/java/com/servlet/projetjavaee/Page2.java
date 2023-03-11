@@ -16,8 +16,11 @@ import java.util.List;
 public class Page2 extends HttpServlet{
     private static final long serialVersionUID = 1L;
     private List<Equipe> equipes = new ArrayList<Equipe>();
+    private List<Eleve> eleves = new ArrayList<Eleve>();
+
 
     public Page2() {
+
         super();
     }
 
@@ -25,6 +28,7 @@ public class Page2 extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         request.setAttribute("equipes", equipes);
+
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page2.jsp").forward(request, response);
     }
 
