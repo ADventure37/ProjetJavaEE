@@ -19,9 +19,8 @@ public class Page1 extends HttpServlet{
 
     public Page1() {
         super();
-        for (int i = 0; i<5; i++){
-            eleves.add(new Eleve("Deloy", "Adrien", "Homme", "Angers", "MPSI"));
-        }
+        eleves.add(new Eleve("Deloy", "Adrien", "Homme", "Angers", "MPSI"));
+
     }
 
     @Override
@@ -36,7 +35,6 @@ public class Page1 extends HttpServlet{
         String action = request.getParameter("bouton");
         System.out.println(action);
         if("Valider".equals(action)){
-            System.out.println("2");
             String nom = request.getParameter("Nom");
             String prenom = request.getParameter("Prenom");
             String genre = request.getParameter("genre");
@@ -44,8 +42,11 @@ public class Page1 extends HttpServlet{
             String formation = request.getParameter("formationPrecedente");
             eleves.add(new Eleve(nom, prenom, genre, site, formation));
             request.getSession().setAttribute("eleves", eleves);
+
+        } else if ("Cliquez".equals(action)) {
+            request.getSession().setAttribute("eleves", eleves);
         }
-        System.out.println("3");
+
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page1.jsp").forward(request, response);
     }
 
