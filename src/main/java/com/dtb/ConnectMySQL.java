@@ -1,7 +1,6 @@
 package com.dtb;
 import com.beans.projetjavaee.Eleve;
 import com.beans.projetjavaee.Equipe;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

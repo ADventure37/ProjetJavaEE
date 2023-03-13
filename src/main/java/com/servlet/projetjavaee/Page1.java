@@ -1,14 +1,12 @@
 package com.servlet.projetjavaee;
 
 import com.beans.projetjavaee.Eleve;
-import com.dtb.ConnectMySQL;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,7 @@ public class Page1 extends HttpServlet{
     private List<Eleve> eleves = new ArrayList<Eleve>();
 
     public static final int TAILLE_TAMPON = 10240;
-    public static final String CHEMIN_FICHIERS = "C:\\Users\\User\\Desktop\\Intellij\\ProjetJavaEE\\CSV\\"; // A changer
+    public static final String CHEMIN_FICHIERS = "C:\\Users\\adrie\\Downloads\\ProjetJavaEE\\CSV\\"; // A changer
 
 
     public Page1() {
@@ -119,7 +117,7 @@ public class Page1 extends HttpServlet{
         try {
             // Création d'un objet BufferedReader pour lire le fichier CSV
             BufferedReader reader = new BufferedReader(new FileReader(adresse));
-
+            CSVWriter reader2 = new CSVWriter(new FileReader(adresse));
             // Lecture de la première ligne contenant les noms des colonnes (optionnel)
             String header = reader.readLine();
 
