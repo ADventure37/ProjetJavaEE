@@ -1,11 +1,17 @@
 <%@ page pageEncoding = "UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
+<style>
+    form {
+        margin-bottom: 100px;
+    }
+</style>
 <html>
     <head>
         <meta charset="utf-8" />
         <title>Page 1</title>
         <h1><%= "Bienvenue!" %></h1>
+
     </head>
 
     <body>
@@ -55,12 +61,26 @@
         <p><input type = "submit" name= "bouton" value="Valider" /></p>
         </form>
         <form>
-        <p><label for="file">choisissez un fichier .csv:</label>
 
-            <input type="file"
-                   id="file" name="file"
-                   accept="file/csv">
-        </p>
+        <c:if test="${ !empty fichier }">
+            <p><c:out value="Le fichier ${ fichier } (${ description }) a été uploadé !" /></p>
+        </c:if>
+
+        <form method="post" action="Page1" enctype="multipart/form-data">
+            <p>
+                <label for="description">Description du fichier</label>
+                <input type="text" name="description" id="description">
+            </p>
+            <p>
+                <label for="fichier">Choisissez un fichier .csv:</label>
+                <input type="file"
+                       id="fichier" name="fichier"
+                       accept=".csv" onchange="checkfile(this)">
+            </p>
+            <input type = "submit" value="Valider" />
+
+
+        </form>
         <p><input type = "submit" name= "bouton" value="Valider le fichier" /></p>
         </form>
         <p>
