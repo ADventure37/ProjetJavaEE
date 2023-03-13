@@ -28,7 +28,19 @@
 <p>
 <form method="post" action="Page2">
     <p>
-        <input type = "text" id="ancien" name= "Ancien Nom" />
+        <%= "Changer le nom d'une équipe" %>
+    </p>
+    <p>
+        <label for="ChangerN">Choisir une équipe:</label>
+        <select name="ChangerN" id="ChangerN">
+            <option value="">Sélectionner une équipe</option>
+            <c:forEach items="${ equipes }" var="equipe" varStatus="status">
+    <p>
+        <option value="${ equipe.nom }">${ equipe.nom }</option>
+    </p>
+    </c:forEach>
+    </select>
+    <label for="new"> Le nouveau nom:</label>
         <input type = "text" id="new" name= "Nouveau Nom" />
         <input type = "submit" name="bouton" value="Modifier le nom d'équipe" />
     </p>

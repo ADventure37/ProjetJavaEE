@@ -30,7 +30,7 @@ public class Page2 extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
-
+        request.getSession().setAttribute("eleves", eleves);
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page2.jsp").forward(request, response);
     }
 
@@ -44,15 +44,10 @@ public class Page2 extends HttpServlet{
 
 
         } else if (action.equals("Modifier le nom d'équipe")) {
-            String ancien = request.getParameter("Ancien Nom");
+            String ancien = request.getParameter("ChangerN");
             String nouveau = request.getParameter("Nouveau Nom");
-            System.out.println("1");
             for(Equipe e :equipes){
-                System.out.println("2");
-                System.out.println( e.getNom().hashCode());
-                System.out.println(ancien.hashCode());
                 if(e.getNom().equals(ancien.trim())){
-                    System.out.println("3");
                     e.setNom(nouveau);
                 }
             }
@@ -70,9 +65,8 @@ public class Page2 extends HttpServlet{
             int nombre = Integer.parseInt(x);
             int nb = equipes.size();
             for(int i=nb+1; i< nombre+ nb+1; i++){
-                equipes.add(new Equipe("Equipe " + i));
+                equipes.add(new Equipe(i,"Equipe " + i));
             }
-            System.out.println("les equipes sont " + equipes);
         }
         catch (NumberFormatException ex){
             ex.printStackTrace();
