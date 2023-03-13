@@ -14,7 +14,8 @@
     </head>
 
     <body>
-        <p>Veuillez rentrer vos infrormations personnelles!</p>
+    <p style="font-weight: bold;">
+        <font size="4"> Veuillez rentrer vos infrormations personnelles! </font></p>
         <form method="post" action="Page1">
         <p>
             <label for="Nom">Nom: </label>
@@ -59,6 +60,9 @@
         </p>
         <p><input type = "submit" name= "bouton" value="Valider" /></p>
         </form>
+
+        <p style="font-weight: bold;">
+            <font size="4"> Veuillez indiquer le document d'insertion! </font></p>
         <form method="post" action="Page1" enctype="multipart/form-data">
             <p>
                 <label for="description">Description du fichier</label>

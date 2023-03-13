@@ -1,6 +1,9 @@
 package com.servlet.projetjavaee;
 
 import com.beans.projetjavaee.Eleve;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvValidationException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,6 +14,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+
 
 
 @WebServlet(name = "Page1", value = "/Page1")
@@ -24,8 +28,6 @@ public class Page1 extends HttpServlet{
 
     public Page1() {
         super();
-        eleves.add(new Eleve("Deloy", "Adrien", "Homme", "Angers", "MPSI"));
-
     }
 
     @Override
@@ -38,7 +40,6 @@ public class Page1 extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         String action = request.getParameter("bouton");
-        System.out.println(action);
         if("Valider".equals(action)){
             String nom = request.getParameter("Nom");
             String prenom = request.getParameter("Prenom");
@@ -46,10 +47,9 @@ public class Page1 extends HttpServlet{
             String site = request.getParameter("sitePrecedent");
             String formation = request.getParameter("formationPrecedente");
             eleves.add(new Eleve(nom, prenom, genre, site, formation));
-            request.getSession().setAttribute("eleves", eleves);
+
 
         } else if ("Cliquez".equals(action)) {
-            request.getSession().setAttribute("eleves", eleves);
         } else if ("Valider le fichier".equals(action)) {
             // On récupère le champ description comme d'habitude
             String description = request.getParameter("description");
@@ -73,8 +73,10 @@ public class Page1 extends HttpServlet{
                 csvToEleve(part);
                 request.setAttribute(nomChamp, nomFichier);
             }
-        }
 
+        }
+        request.getSession().setAttribute("eleves", eleves);
+        System.out.println(eleves);
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page1.jsp").forward(request, response);
     }
 
@@ -115,39 +117,34 @@ public class Page1 extends HttpServlet{
         String nomFichier = getNomFichier(part);
         String adresse = CHEMIN_FICHIERS + nomFichier;
         try {
-            // Création d'un objet BufferedReader pour lire le fichier CSV
-            BufferedReader reader = new BufferedReader(new FileReader(adresse));
-            CSVWriter reader2 = new CSVWriter(new FileReader(adresse));
-            // Lecture de la première ligne contenant les noms des colonnes (optionnel)
-            String header = reader.readLine();
+            CSVReader reader = new CSVReader(new FileReader(adresse));
 
             // Lecture des lignes suivantes contenant les données
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Utilisation de StringTokenizer pour séparer les valeurs de la ligne en utilisant la virgule comme délimiteur
-                StringTokenizer tokenizer = new StringTokenizer(line, ",");
-                // Extraction des informations de chaque ligne
-                String nom = tokenizer.nextToken();
-                String prenom = tokenizer.nextToken();
-                String genre = tokenizer.nextToken();
-                String site = tokenizer.nextToken();
-                String formation = tokenizer.nextToken();
-
-
+            String[] line;
+            reader.readNext();
+            while ((line = reader.readNext()) != null) {
+                String nom = line[0];
+                String prenom = line[1];
+                String genre = line[2];
+                String site = line[3];
+                String formation = line[4];
+                eleves.add(new Eleve(nom, prenom, genre, site, formation));
 
                 // Affichage des informations extraites
-                System.out.println("Nom : " + nom);
-                System.out.println("Prenom : " + prenom);
-                System.out.println("genre : " + genre);
-                System.out.println("site : " + site);
-                System.out.println("formation : " + formation);
-                System.out.println();
+//                System.out.println("Nom : " + nom);
+//                System.out.println("Prenom : " + prenom);
+//                System.out.println("genre : " + genre);
+//                System.out.println("site : " + site);
+//                System.out.println("formation : " + formation);
+//                System.out.println();
             }
 
             // Fermeture du lecteur de fichier
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
         }
         suppFile(adresse);
     }

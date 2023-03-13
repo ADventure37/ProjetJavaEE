@@ -30,7 +30,6 @@ public class Page2 extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
-        request.getSession().setAttribute("eleves", eleves);
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page2.jsp").forward(request, response);
     }
 
@@ -56,7 +55,6 @@ public class Page2 extends HttpServlet{
             String eleve = request.getParameter("AssignerEl");
         }
         request.setAttribute("equipes", equipes);
-        request.getSession().setAttribute("eleves", eleves);
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page2.jsp").forward(request, response);
     }
 

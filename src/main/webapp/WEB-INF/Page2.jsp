@@ -14,8 +14,8 @@
 </head>
 <p>
 <form method="post" action="Page2">
-<p>
-    <label for="Nombre">Nombre d'équipe nécessaire: </label>
+<p style="font-weight: bold;">
+    <font size="4"> Nombre d'équipe nécessaire: </font>
     <input type = "text" id="Nombre" name="Nombre" />
     <input type = "submit" name="bouton" value="Créer les équipes" />
 </form>
@@ -27,8 +27,8 @@
 </p>
 <p>
 <form method="post" action="Page2">
-    <p>
-        <%= "Changer le nom d'une équipe" %>
+    <p style="font-weight: bold;">
+        <font size="4"> Changer le nom d'une équipe </font>
     </p>
     <p>
         <label for="ChangerN">Choisir une équipe:</label>
@@ -49,8 +49,8 @@
 </p>
 <p>
     <form method="post" action="Page2">
-        <p>
-            <%= "Veuillez assigner un élève à une équipe" %>
+        <p style="font-weight: bold;">
+            <font size="4">Veuillez assigner un élève à une équipe </font>
         </p>
         <p>
             <label for="AssignerEq">Choisir une équipe:</label>
@@ -76,8 +76,8 @@
     </form>
 </p>
 
-<p>
-    <label for="Nombre">Liste des élèves sans équipe: </label>
+<p style="font-weight: bold;">
+    <font size="4"> Liste des élèves sans équipe: </font>
     <c:forEach items="${ sessionScope.eleves }" var="eleves" varStatus="status">
             <p>
                 <c:out value="${ eleves.nom } ${eleves.prenom} ${eleves.equipe}" />
