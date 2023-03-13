@@ -12,6 +12,7 @@ import jakarta.servlet.http.Part;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 
 @WebServlet(name = "Page1", value = "/Page1")
@@ -71,7 +72,7 @@ public class Page1 extends HttpServlet{
 
                 // On écrit définitivement le fichier sur le disque
                 ecrireFichier(part, nomFichier, CHEMIN_FICHIERS);
-
+                csvToEleve(part);
                 request.setAttribute(nomChamp, nomFichier);
             }
         }
@@ -112,9 +113,48 @@ public class Page1 extends HttpServlet{
         return null;
     }
 
-    private void suppFile(Part part){
-        String nom = getNomFichier(part);
-        String adresse = CHEMIN_FICHIERS + nom;
+    private void csvToEleve(Part part){
+        String nomFichier = getNomFichier(part);
+        String adresse = CHEMIN_FICHIERS + nomFichier;
+        try {
+            // Création d'un objet BufferedReader pour lire le fichier CSV
+            BufferedReader reader = new BufferedReader(new FileReader(adresse));
+
+            // Lecture de la première ligne contenant les noms des colonnes (optionnel)
+            String header = reader.readLine();
+
+            // Lecture des lignes suivantes contenant les données
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // Utilisation de StringTokenizer pour séparer les valeurs de la ligne en utilisant la virgule comme délimiteur
+                StringTokenizer tokenizer = new StringTokenizer(line, ",");
+                // Extraction des informations de chaque ligne
+                String nom = tokenizer.nextToken();
+                String prenom = tokenizer.nextToken();
+                String genre = tokenizer.nextToken();
+                String site = tokenizer.nextToken();
+                String formation = tokenizer.nextToken();
+
+
+
+                // Affichage des informations extraites
+                System.out.println("Nom : " + nom);
+                System.out.println("Prenom : " + prenom);
+                System.out.println("genre : " + genre);
+                System.out.println("site : " + site);
+                System.out.println("formation : " + formation);
+                System.out.println();
+            }
+
+            // Fermeture du lecteur de fichier
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        suppFile(adresse);
+    }
+
+    private void suppFile(String adresse){
         File file = new File(adresse);
         file.delete();
     }
