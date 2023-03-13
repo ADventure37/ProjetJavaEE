@@ -69,7 +69,7 @@ public class Page1 extends HttpServlet{
                         .substring(nomFichier.lastIndexOf('\\') + 1);
 
                 // On écrit définitivement le fichier sur le disque
-                ecrireFichier(part, nomFichier, CHEMIN_FICHIERS);
+                ecrireFichier(part, nomFichier);
                 csvToEleve(part);
                 request.setAttribute(nomChamp, nomFichier);
             }
@@ -80,12 +80,12 @@ public class Page1 extends HttpServlet{
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page1.jsp").forward(request, response);
     }
 
-    private void ecrireFichier( Part part, String nomFichier, String chemin ) throws IOException {
+    private void ecrireFichier( Part part, String nomFichier) throws IOException {
         BufferedInputStream entree = null;
         BufferedOutputStream sortie = null;
         try {
             entree = new BufferedInputStream(part.getInputStream(), TAILLE_TAMPON);
-            sortie = new BufferedOutputStream(new FileOutputStream(new File(chemin + nomFichier)), TAILLE_TAMPON);
+            sortie = new BufferedOutputStream(new FileOutputStream(new File(CHEMIN_FICHIERS + nomFichier)), TAILLE_TAMPON);
 
             byte[] tampon = new byte[TAILLE_TAMPON];
             int longueur;
@@ -120,14 +120,14 @@ public class Page1 extends HttpServlet{
             CSVReader reader = new CSVReader(new FileReader(adresse));
 
             // Lecture des lignes suivantes contenant les données
-            String[] line;
+            String[] ligne;
             reader.readNext();
-            while ((line = reader.readNext()) != null) {
-                String nom = line[0];
-                String prenom = line[1];
-                String genre = line[2];
-                String site = line[3];
-                String formation = line[4];
+            while ((ligne = reader.readNext()) != null) {
+                String nom = ligne[0];
+                String prenom = ligne[1];
+                String genre = ligne[2];
+                String site = ligne[3];
+                String formation = ligne[4];
                 eleves.add(new Eleve(nom, prenom, genre, site, formation));
 
                 // Affichage des informations extraites
