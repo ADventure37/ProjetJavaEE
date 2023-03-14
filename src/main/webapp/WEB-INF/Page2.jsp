@@ -118,6 +118,6 @@
 </p>
 
 <p><label for="page1">Page pour ajouter des élèves: </label>
-    <input type="button" id="page1" onclick="window.location.href = 'Page1';" value="Cliquez" /></p>
+    <input type="button" id="page1" onclick="window.location.href = 'Page1';" value="Aller à la page 1" /></p>
 </body>
 </html>
