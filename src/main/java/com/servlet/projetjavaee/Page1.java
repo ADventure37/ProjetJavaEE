@@ -90,21 +90,29 @@ public class Page1 extends HttpServlet {
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page1.jsp").forward(request, response);
     }
 
+    //ecrireFichier permet d'écrire un fichier à partir d'une 'Part' (partie) d'une reqûete HTTP
     private void ecrireFichier( Part part, String nomFichier) throws IOException {
-    
+
+        //Initialisation des entrées et sorties
         BufferedInputStream entree = null;
         BufferedOutputStream sortie = null;
         try {
+            //On utilise un tampon lors de la lecture de la partie de la reqûete HTTP
             entree = new BufferedInputStream(part.getInputStream(), TAILLE_TAMPON);
 
+            //On écrit le fichier en utilisant le même tampon
             sortie = new BufferedOutputStream(new FileOutputStream(new File(CHEMIN_FICHIERS + nomFichier)), TAILLE_TAMPON);
 
+            //Lecture des données de l'entrée
             byte[] tampon = new byte[TAILLE_TAMPON];
             int longueur;
+
+            //Lecture des données de l'entrée puis écriture dans la sortie à l'aide d'une boucle pour couvrir l'ensemble des données
             while ((longueur = entree.read(tampon)) > 0) {
                 sortie.write(tampon, 0, longueur);
             }
         } finally {
+            //Fermeture des flux d'entrée et de sortie
             try {
                 sortie.close();
             } catch (IOException ignore) {
@@ -156,9 +164,13 @@ public class Page1 extends HttpServlet {
         file.delete();
     }
 
+    //getNomFichier permet d'extraire le nom d'un fichier à partir d'une requête HTTP
     private static String getNomFichier( Part part ) {
+        //Parcour des différentes parties du champ "content-disposition"
         for ( String contentDisposition : part.getHeader( "content-disposition" ).split( ";" ) ) {
+            //On vérifie que la partie commence par "filename"
             if ( contentDisposition.trim().startsWith( "filename" ) ) {
+                //On extrait le nom en retirant les espaces et guillemets
                 return contentDisposition.substring( contentDisposition.indexOf( '=' ) + 1 ).trim().replace( "\"", "" );
             }
         }
