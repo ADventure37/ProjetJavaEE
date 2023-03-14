@@ -6,7 +6,7 @@ import java.util.List;
 public class Equipe {
     private String nom;
     private int id;
-
+    private List<Eleve> eleves  = new ArrayList<>();
     public Equipe(String nom){
         this.setNom(nom);
     }
@@ -25,5 +25,13 @@ public class Equipe {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public List<Eleve> getEleves() {
+        return eleves;
+    }
+
+    public void setEleves(List<Eleve> eleves) {
+        this.eleves = eleves;
     }
 }

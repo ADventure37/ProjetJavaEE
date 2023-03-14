@@ -29,6 +29,9 @@ public class Page2 extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
+        Noms tableNoms = new Noms();
+        request.setAttribute("equipes", tableNoms.recupererEquipes());
+        request.setAttribute("elevesSeul", tableNoms.recupererElevesS());
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page2.jsp").forward(request, response);
     }
 
@@ -50,10 +53,23 @@ public class Page2 extends HttpServlet{
         } else if (action.equals("Valider l'assignation")) {
             String equipe = request.getParameter("AssignerEq");
             String eleve = request.getParameter("AssignerEl");
+            String[] split = eleve.split(" ");
+            String nom = split[0];
+            String prenom = split[1];
+            Noms tableNoms = new Noms();
+            for(Equipe e: tableNoms.recupererEquipes()){
+                if(e.getNom().equals(equipe)){
+                    for(Eleve el : tableNoms.recupererElevesS()){
+                        if(el.getNom().equals(nom) && el.getPrenom().equals(prenom)){
+                            tableNoms.ajouterAEquipe(e.getId(), el);
+                        }
+                    }
+                }
+            }
         }
         Noms tableNoms = new Noms();
         request.setAttribute("equipes", tableNoms.recupererEquipes());
-        request.setAttribute("eleves", tableNoms.recupererEleves());
+        request.setAttribute("elevesSeul", tableNoms.recupererElevesS());
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page2.jsp").forward(request, response);
     }
 

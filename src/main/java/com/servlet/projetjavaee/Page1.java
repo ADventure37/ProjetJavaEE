@@ -34,7 +34,7 @@ public class Page1 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Noms tableNoms = new Noms();
-        request.setAttribute("eleves", tableNoms.recupererEleves());
+        request.setAttribute("eleves", tableNoms.recupererElevesS());
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page1.jsp").forward(request, response);
     }
 
@@ -55,7 +55,7 @@ public class Page1 extends HttpServlet {
             Noms tableNoms = new Noms();
             tableNoms.ajouterEleve(eleve);
 
-            request.setAttribute("eleves", tableNoms.recupererEleves());
+            request.setAttribute("eleves", tableNoms.recupererElevesS());
 
         } else if ("Cliquez".equals(action)) {
         } else if ("Valider le fichier".equals(action)) {

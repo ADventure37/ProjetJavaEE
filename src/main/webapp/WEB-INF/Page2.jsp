@@ -22,6 +22,10 @@
     <c:forEach items="${ equipes }" var="equipe" varStatus="status">
         <p>
             <c:out value="${ equipe.nom }:" />
+            <c:forEach items="${ equipe.eleves }" var="eleve" varStatus="status">
+                    <c:out value=" ${ eleve.nom } ${eleve.prenom}, " />
+            </c:forEach>
+
         </p>
     </c:forEach>
 </p>
@@ -65,9 +69,9 @@
             <label for="AssignerEl">Choisir un élève:</label>
             <select name="AssignerEl" id="AssignerEl">
                 <option value="">Sélectionner un élève</option>
-                <c:forEach items="${ eleves }" var="eleves" varStatus="status">
+                <c:forEach items="${ elevesSeul }" var="elevesSeul" varStatus="status">
                     <p>
-                        <option value="${ eleves.nom } ${eleves.prenom}">${ eleves.nom } ${eleves.prenom}</option>
+                        <option value="${ elevesSeul.nom } ${elevesSeul.prenom}">${ elevesSeul.nom } ${elevesSeul.prenom}</option>
                     </p>
                 </c:forEach>
             </select>
@@ -78,9 +82,9 @@
 
 <p style="font-weight: bold;">
     <font size="4"> Liste des élèves sans équipe: </font>
-    <c:forEach items="${ eleves }" var="eleves" varStatus="status">
+    <c:forEach items="${ elevesSeul }" var="elevesSeul" varStatus="status">
             <p>
-                <c:out value="${ eleves.nom } ${eleves.prenom} ${eleves.equipe}" />
+                <c:out value="${ elevesSeul.nom } ${elevesSeul.prenom} " />
             </p>
     </c:forEach>
 </p>

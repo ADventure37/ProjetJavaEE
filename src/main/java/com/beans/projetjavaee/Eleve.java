@@ -6,7 +6,7 @@ public class Eleve {
     private String genre;
     private String sitePrecedent;
     private String formationPrecedente;
-    private String equipe;
+    private int idEquipe;
 
     public Eleve(){
         this.setPrenom(null);
@@ -14,7 +14,6 @@ public class Eleve {
         this.setGenre(null);
         this.setSitePrecedent(null);
         this.setFormationPrecedente(null);
-        this.setEquipe(null);
     }
 
     public Eleve(String nom, String prenom, String genre, String sitePrecedent, String formationPrecedente){
@@ -23,7 +22,6 @@ public class Eleve {
         this.setGenre(genre);
         this.setSitePrecedent(sitePrecedent);
         this.setFormationPrecedente(formationPrecedente);
-        this.setEquipe(null);
     }
     public String toString(){
         String message = ""+ this.getNom()+ " " + this.getPrenom() + "  " +this.getGenre() + " "
@@ -71,11 +69,11 @@ public class Eleve {
         this.formationPrecedente = formationPrecedente;
     }
 
-    public String getEquipe() {
-        return equipe;
+    public int getIdEquipe() {
+        return idEquipe;
     }
 
-    public void setEquipe(String equipe) {
-        this.equipe = equipe;
+    public void setIdEquipe(int idEquipe) {
+        this.idEquipe = idEquipe;
     }
 }
