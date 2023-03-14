@@ -143,7 +143,6 @@ public class Noms {
                     Eleves.add(Eleve);
                 }
             }
-            System.out.println(Eleves);
         } catch (SQLException e) {
         } finally {
             // Fermeture de la connexion
@@ -181,7 +180,6 @@ public class Noms {
 
                 Equipe e = new Equipe(nom);
                 e.setId(id);
-                System.out.println(recupererElevesEq(e.getId()));
                 e.setEleves(recupererElevesEq(e.getId()));
                 equipes.add(e);
             }

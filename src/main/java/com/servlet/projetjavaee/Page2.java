@@ -39,6 +39,7 @@ public class Page2 extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         String action = request.getParameter("bouton");
+        System.out.println(action);
         if(action.equals("Créer les équipes")){
             String nbEquipe = request.getParameter("Nombre");
             createXEquipe(nbEquipe);
@@ -68,28 +69,32 @@ public class Page2 extends HttpServlet{
             }
         } else if (action.equals("Génération automatique")) {
             Noms tableNoms = new Noms();
-            List<Eleve> eleves = tableNoms.recupererElevesS();
+            List<Eleve> eleves = tableNoms.recupererEleves();
             List<Equipe> equipes = tableNoms.recupererEquipes();
-            int nbEq;
-            if (eleves.size()>0) {
-                if (equipes.get(equipes.size() - 1).getEleves().size() == 2) {
-                    nbEq = eleves.size() / 2 + 1;
-                    int nb = tableNoms.recupererEquipes().size();
-                    createXEquipe("" + nbEq);
-                    for (int i = nb+1; i < eleves.size(); i++) {
-                        int numEq = i / 2 + 1;
-                        tableNoms.ajouterAEquipe(numEq, eleves.get(i));
+            int nbEquipe = equipes.size();
+            int nbEleve = eleves.size();
+            if(nbEleve<nbEquipe){
+                nbEquipe = nbEleve;
+            }
+            int div = nbEleve/nbEquipe;
+            double rest = nbEleve%nbEquipe;
+            for(int i =1;i<=nbEquipe;i++){
+                for(int j = 0; j<nbEleve;j++){
+                    if(j/div < i && j/div >= i-1){
+                        tableNoms.ajouterAEquipe(i, eleves.get(j));
                     }
-                }else if (equipes.get(equipes.size() - 1).getEleves().size() < 2){
-                    nbEq = eleves.size() / 2 ;
-                    int nb = tableNoms.recupererEquipes().size();
-                    createXEquipe("" + nbEq);
-                    for (int i = nb; i < eleves.size(); i++) {
-                        int numEq = i / 2 + 1;
-                        tableNoms.ajouterAEquipe(numEq, eleves.get(i));
                 }
             }
+            if(rest!=0) {
+                int val1 = (int) rest;
+                for (int j = 0; j < val1; j++) {
+                    Eleve e = eleves.get(j+div*nbEquipe);
+                    String nom = e.getNom();
+                    int equipe = j+1;
+                    tableNoms.ajouterAEquipe(equipe, e);
+                }
             }
+
 
         }
         Noms tableNoms = new Noms();

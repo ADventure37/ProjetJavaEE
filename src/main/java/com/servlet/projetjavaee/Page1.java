@@ -24,7 +24,7 @@ import java.io.*;
 public class Page1 extends HttpServlet {
     private static final long serialVersionUID = 1L;
     public static final int TAILLE_TAMPON = 10240;
-    public static final String CHEMIN_FICHIERS = "C:\\Users\\User\\Desktop\\Intellij\\ProjetJavaEE\\CSV\\"; // A changer
+    public static final String CHEMIN_FICHIERS = "C:\\Users\\adrie\\Downloads\\ProjetJavaEE\\CSV\\"; // A changer
 
 
     public Page1() {
