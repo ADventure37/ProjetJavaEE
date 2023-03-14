@@ -5,11 +5,11 @@ import java.util.List;
 
 public class Equipe {
     private String nom;
-    private List<Eleve> eleves;
+    private int id;
 
-    public Equipe(String nom){
+    public Equipe(int id, String nom){
         this.setNom(nom);
-        this.setEleves(new ArrayList<Eleve>());
+        this.setId(id);
     }
 
     public String getNom() {
@@ -20,24 +20,11 @@ public class Equipe {
         this.nom = nom;
     }
 
-    public List<Eleve> getEleves() {
-        return eleves;
+    public int getId() {
+        return id;
     }
 
-    public void setEleves(List<Eleve> eleves) {
-        this.eleves = eleves;
-    }
-
-    public void addEleve(Eleve eleve){
-        eleve.setEquipe(this.getNom());
-        this.getEleves().add(eleve);
-    }
-
-    public void deleteEleve(Eleve eleve){
-        for(Eleve e : this.getEleves()){
-            if( e.getNom() == eleve.getNom() && e.getPrenom() == eleve.getPrenom()){
-                this.getEleves().remove(e);
-            }
-        }
+    public void setId(int id) {
+        this.id = id;
     }
 }

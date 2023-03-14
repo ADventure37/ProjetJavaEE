@@ -16,6 +16,14 @@ public class Eleve {
         this.setFormationPrecedente(formationPrecedente);
         this.setEquipe(null);
     }
+    public Eleve(){
+        this.setPrenom(null);
+        this.setPrenom(null);
+        this.setGenre(null);
+        this.setSitePrecedent(null);
+        this.setFormationPrecedente(null);
+        this.setEquipe(null);
+    }
 
     public String toString(){
         String message = ""+ this.getNom()+ " " + this.getPrenom() + "  " +this.getGenre() + " "

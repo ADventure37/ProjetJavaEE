@@ -1,6 +1,11 @@
 <%@ page pageEncoding = "UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
+<style>
+    form {
+        margin-bottom: 100px;
+    }
+</style>
 <html>
     <head>
         <meta charset="utf-8" />
@@ -9,7 +14,8 @@
     </head>
 
     <body>
-        <p>Veuillez rentrer vos infrormations personnelles!</p>
+    <p style="font-weight: bold;">
+        <font size="4"> Veuillez rentrer vos infrormations personnelles! </font></p>
         <form method="post" action="Page1">
         <p>
             <label for="Nom">Nom: </label>
@@ -54,19 +60,30 @@
         </p>
         <p><input type = "submit" name= "bouton" value="Valider" /></p>
         </form>
-        <form>
-        <p><label for="file">choisissez un fichier .csv:</label>
 
-            <input type="file"
-                   id="file" name="file"
-                   accept="file/csv">
-        </p>
-        <p><input type = "submit" name= "bouton" value="Valider le fichier" /></p>
+        <p style="font-weight: bold;">
+            <font size="4"> Veuillez indiquer le document d'insertion! </font></p>
+        <form method="post" action="Page1" enctype="multipart/form-data">
+            <p>
+                <label for="description">Description du fichier</label>
+                <input type="text" name="description" id="description">
+            </p>
+            <p>
+                <label for="fichier">Choisissez un fichier .csv:</label>
+                <input type="file"
+                       id="fichier" name="fichier"
+                       accept=".csv" onchange="checkfile(this)">
+            </p>
+            <p><input type = "submit" name= "bouton" value="Valider le fichier" /></p>
+
+
         </form>
+
+        <form method="post" action="Page1">
         <p>
             <label for="page2">Page pour gérer les équipes: </label>
             <input type="button" id="page2" onclick="window.location.href = 'Page2';" value="Cliquez" /></p>
+        </form>
 
-        <c:if test="${!empty eleves}"><p><c:out value = "${eleves}"/></p></c:if>
     </body>
 </html>
