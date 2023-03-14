@@ -60,7 +60,7 @@
         </p>
         <p><input type = "submit" name= "bouton" value="Valider" /></p>
         </form>
-        <form>
+
 
         <c:if test="${ !empty fichier }">
             <p><c:out value="Le fichier ${ fichier } (${ description }) a été uploadé !" /></p>
@@ -77,16 +77,17 @@
                        id="fichier" name="fichier"
                        accept=".csv" onchange="checkfile(this)">
             </p>
-            <input type = "submit" value="Valider" />
 
-
-        </form>
         <p><input type = "submit" name= "bouton" value="Valider le fichier" /></p>
         </form>
         <p>
             <label for="page2">Page pour gérer les équipes: </label>
             <input type="button" id="page2" onclick="window.location.href = 'Page2';" value="Cliquez" /></p>
 
-        <c:if test="${!empty eleves}"><p><c:out value = "${eleves}"/></p></c:if>
+        <ul>
+            <c:forEach var="utilisateur" items="${ utilisateurs }">
+                <li><c:out value="${ utilisateur.prenom }" /> <c:out value="${ utilisateur.nom }" /></li>
+            </c:forEach>
+        </ul>
     </body>
 </html>

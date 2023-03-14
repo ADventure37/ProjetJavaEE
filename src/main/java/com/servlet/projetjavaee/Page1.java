@@ -17,7 +17,6 @@ import java.io.*;
 @WebServlet(name = "Page1", value = "/Page1")
 public class Page1 extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private List<Eleve> eleves = new ArrayList<Eleve>();
 
     public static final int TAILLE_TAMPON = 10240;
     public static final String CHEMIN_FICHIERS = "D:/ESEO/E4/S8/FichiersProjetJavaEE/"; // A changer
@@ -29,8 +28,8 @@ public class Page1 extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //Noms tableNoms = new Noms();
-        //request.setAttribute("eleves", tableNoms.recupererEleves());
+        Noms tableNoms = new Noms();
+        request.setAttribute("eleves", tableNoms.recupererEleves());
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page1.jsp").forward(request, response);
     }
 
@@ -40,52 +39,48 @@ public class Page1 extends HttpServlet {
         String action = request.getParameter("bouton");
         System.out.println(action);
         if("Valider".equals(action)) {
-            System.out.println("2");
-            String nom = request.getParameter("Nom");
-            String prenom = request.getParameter("Prenom");
-            String genre = request.getParameter("genre");
-            String site = request.getParameter("sitePrecedent");
-            String formation = request.getParameter("formationPrecedente");
-            eleves.add(new Eleve(nom, prenom, genre, site, formation));
-            System.out.println(eleves.get(0).toString());
-            request.setAttribute("eleves", eleves);
+            Eleve eleve = new Eleve();
+            eleve.setNom(request.getParameter("Nom"));
+            eleve.setPrenom(request.getParameter("Prenom"));
+            eleve.setGenre(request.getParameter("genre"));
+            eleve.setSitePrecedent(request.getParameter("sitePrecedent"));
+            eleve.setFormationPrecedente(request.getParameter("formationPrecedente"));
+
+            Noms tableNoms = new Noms();
+            tableNoms.ajouterEleve(eleve);
+
+            request.setAttribute("eleves", tableNoms.recupererEleves());
+
         }
 
-        // On récupère le champ description comme d'habitude
-        String description = request.getParameter("description");
-        request.setAttribute("description", description );
+        else if ("Valider le fichier".equals(action)) {
 
-        // On récupère le champ du fichier
-        Part part = request.getPart("fichier");
+            // On récupère le champ description comme d'habitude
+            String description = request.getParameter("description");
+            request.setAttribute("description", description);
 
-        // On vérifie qu'on a bien reçu un fichier
-        String nomFichier = getNomFichier(part);
+            // On récupère le champ du fichier
+            Part part = request.getPart("fichier");
 
-        // Si on a bien un fichier
-        if (nomFichier != null && !nomFichier.isEmpty()) {
-            String nomChamp = part.getName();
-            // Corrige un bug du fonctionnement d'Internet Explorer
-            nomFichier = nomFichier.substring(nomFichier.lastIndexOf('/') + 1)
-                    .substring(nomFichier.lastIndexOf('\\') + 1);
+            // On vérifie qu'on a bien reçu un fichier
+            String nomFichier = getNomFichier(part);
 
-            // On écrit définitivement le fichier sur le disque
-            ecrireFichier(part, nomFichier, CHEMIN_FICHIERS);
+            // Si on a bien un fichier
+            if (nomFichier != null && !nomFichier.isEmpty()) {
+                String nomChamp = part.getName();
+                // Corrige un bug du fonctionnement d'Internet Explorer
+                nomFichier = nomFichier.substring(nomFichier.lastIndexOf('/') + 1)
+                        .substring(nomFichier.lastIndexOf('\\') + 1);
 
-            request.setAttribute(nomChamp, nomFichier);
+                // On écrit définitivement le fichier sur le disque
+                ecrireFichier(part, nomFichier, CHEMIN_FICHIERS);
+
+                request.setAttribute(nomChamp, nomFichier);
+            }
+
         }
-
-        //Eleve eleve = new Eleve();
-
 
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page1.jsp").forward(request, response);
-    }
-
-    public List<Eleve> getEleves() {
-        return eleves;
-    }
-
-    public void setEleves(List<Eleve> eleves) {
-        this.eleves = eleves;
     }
 
     private void ecrireFichier( Part part, String nomFichier, String chemin ) throws IOException {
