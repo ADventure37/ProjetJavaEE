@@ -34,7 +34,9 @@ public class Page2 extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         Noms tableNoms = new Noms();
+        //Définition de l'attribut de la requête qui correspond à la liste des équipes
         request.setAttribute("equipes", tableNoms.recupererEquipes());
+        //Définition de l'attribut de la requête qui correspond à la liste des élèves sans équipe
         request.setAttribute("elevesSeul", tableNoms.recupererElevesS());
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page2.jsp").forward(request, response);
     }
@@ -43,18 +45,19 @@ public class Page2 extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         String action = request.getParameter("bouton");
-        System.out.println(action);
+        //Permet la création d'un certain nombre d'équipes
         if(action.equals("Créer les équipes")){
             String nbEquipe = request.getParameter("Nombre");
             createXEquipe(nbEquipe);
 
-
+        // Permet la modification d'un nom d'équipe
         } else if (action.equals("Modifier le nom d'équipe")) {
             String ancien = request.getParameter("ChangerN");
             String nouveau = request.getParameter("Nouveau Nom");
             Noms tableNoms = new Noms();
             tableNoms.modifNomEq(ancien, nouveau);
 
+        //Permet l'assignation des élèves dans des équipes
         } else if (action.equals("Valider l'assignation")) {
             String equipe = request.getParameter("AssignerEq");
             String eleve = request.getParameter("AssignerEl");
@@ -71,6 +74,8 @@ public class Page2 extends HttpServlet{
                     }
                 }
             }
+
+        //Permet l'assignation automatique des élèves dans des équipes
         } else if (action.equals("Génération automatique")) {
             Noms tableNoms = new Noms();
             List<Eleve> eleves = tableNoms.recupererEleves();
@@ -93,11 +98,11 @@ public class Page2 extends HttpServlet{
                 int val1 = (int) rest;
                 for (int j = 0; j < val1; j++) {
                     Eleve e = eleves.get(j+div*nbEquipe);
-                    String nom = e.getNom();
                     int equipe = j+1;
                     tableNoms.ajouterAEquipe(equipe, e);
                 }
             }
+        //Enclanche la supression d'un élève d'une équipe
         } else if (action.equals("Valider la suppression d'élève(s)")) {
             String eleve = request.getParameter("SupprimerEl");
 
@@ -117,11 +122,14 @@ public class Page2 extends HttpServlet{
 
         }
         Noms tableNoms = new Noms();
+        //Définition de l'attribut de la requête qui correspond à la liste des équipes
         request.setAttribute("equipes", tableNoms.recupererEquipes());
+        //Définition de l'attribut de la requête qui correspond à la liste des élèves sans équipe
         request.setAttribute("elevesSeul", tableNoms.recupererElevesS());
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page2.jsp").forward(request, response);
     }
 
+    //Créé un nombre x d'équipe
     private void createXEquipe(String x){
         try{
             Noms tableNoms = new Noms();

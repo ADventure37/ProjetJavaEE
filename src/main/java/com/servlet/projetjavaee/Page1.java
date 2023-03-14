@@ -24,6 +24,8 @@ import java.io.*;
 public class Page1 extends HttpServlet {
     private static final long serialVersionUID = 1L;
     public static final int TAILLE_TAMPON = 10240;
+
+    //Chemin où est enregistrer temporairement le csv
     public static final String CHEMIN_FICHIERS = "C:\\Users\\adrie\\Downloads\\ProjetJavaEE\\CSV\\"; // A changer
 
 
@@ -34,6 +36,7 @@ public class Page1 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Noms tableNoms = new Noms();
+        //Définition de l'attribut de la requête qui correspond à la liste des élèves sans équipe
         request.setAttribute("eleves", tableNoms.recupererElevesS());
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page1.jsp").forward(request, response);
     }
@@ -42,10 +45,10 @@ public class Page1 extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         String action = request.getParameter("bouton");
-        System.out.println(action);
         
         if("Valider".equals(action)) {
             Eleve eleve = new Eleve();
+            //Récupération des informations du formaulaire
             eleve.setNom(request.getParameter("Nom"));
             eleve.setPrenom(request.getParameter("Prenom"));
             eleve.setGenre(request.getParameter("genre"));
@@ -53,13 +56,14 @@ public class Page1 extends HttpServlet {
             eleve.setFormationPrecedente(request.getParameter("formationPrecedente"));
 
             Noms tableNoms = new Noms();
+            //Fonction qui permet d'ajouter un élève dans la base de données avec les informations du formulaire
             tableNoms.ajouterEleve(eleve);
 
+            //Définition de l'attribut de la requête qui correspond à la liste des élèves sans équipe
             request.setAttribute("eleves", tableNoms.recupererElevesS());
 
-        } else if ("Cliquez".equals(action)) {
         } else if ("Valider le fichier".equals(action)) {
-            // On récupère le champ description comme d'habitude
+            // On récupère le champ description
             String description = request.getParameter("description");
             request.setAttribute("description", description );
 
@@ -111,7 +115,7 @@ public class Page1 extends HttpServlet {
             }
         }
     }
-    
+    //Récupère les informations du fichier csv pour les intégrer à la base de données sous la forme d'élève
     private void csvToEleve(Part part){
         String nomFichier = getNomFichier(part);
         String adresse = CHEMIN_FICHIERS + nomFichier;
@@ -122,6 +126,7 @@ public class Page1 extends HttpServlet {
             String[] ligne;
             reader.readNext();
             while ((ligne = reader.readNext()) != null) {
+                //Récupération des données de chaque ligne
                 String nom = ligne[0];
                 String prenom = ligne[1];
                 String genre = ligne[2];
@@ -129,15 +134,9 @@ public class Page1 extends HttpServlet {
                 String formation = ligne[4];
                 Eleve e  = new Eleve(nom, prenom, genre, site, formation);
                 Noms tableNoms = new Noms();
+                //Ajout d'un élève dans la base de données par ligne
                 tableNoms.ajouterEleve(e);
 
-                // Affichage des informations extraites
-//                System.out.println("Nom : " + nom);
-//                System.out.println("Prenom : " + prenom);
-//                System.out.println("genre : " + genre);
-//                System.out.println("site : " + site);
-//                System.out.println("formation : " + formation);
-//                System.out.println();
             }
 
             // Fermeture du lecteur de fichier
@@ -147,9 +146,11 @@ public class Page1 extends HttpServlet {
         } catch (CsvValidationException e) {
             throw new RuntimeException(e);
         }
+        //Suppression du fichier csv après utilisation
         suppFile(adresse);
     }
 
+    //Suppression du fichier cvs
     private void suppFile(String adresse){
         File file = new File(adresse);
         file.delete();
