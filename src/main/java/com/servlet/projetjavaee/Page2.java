@@ -66,6 +66,31 @@ public class Page2 extends HttpServlet{
                     }
                 }
             }
+        } else if (action.equals("Génération automatique")) {
+            Noms tableNoms = new Noms();
+            List<Eleve> eleves = tableNoms.recupererElevesS();
+            List<Equipe> equipes = tableNoms.recupererEquipes();
+            int nbEq;
+            if (eleves.size()>0) {
+                if (equipes.get(equipes.size() - 1).getEleves().size() == 2) {
+                    nbEq = eleves.size() / 2 + 1;
+                    int nb = tableNoms.recupererEquipes().size();
+                    createXEquipe("" + nbEq);
+                    for (int i = nb+1; i < eleves.size(); i++) {
+                        int numEq = i / 2 + 1;
+                        tableNoms.ajouterAEquipe(numEq, eleves.get(i));
+                    }
+                }else if (equipes.get(equipes.size() - 1).getEleves().size() < 2){
+                    nbEq = eleves.size() / 2 ;
+                    int nb = tableNoms.recupererEquipes().size();
+                    createXEquipe("" + nbEq);
+                    for (int i = nb; i < eleves.size(); i++) {
+                        int numEq = i / 2 + 1;
+                        tableNoms.ajouterAEquipe(numEq, eleves.get(i));
+                }
+            }
+            }
+
         }
         Noms tableNoms = new Noms();
         request.setAttribute("equipes", tableNoms.recupererEquipes());
