@@ -12,6 +12,9 @@ repositories {
 
 ext {
     junitVersion = '5.9.1'
+    dbUrl = 'jdbc:mysql://localhost:3306/Projet_JEE'
+    dbUser = 'root'
+    dbPassword = 'root'
 }
 
 sourceCompatibility = '11'
@@ -26,6 +29,8 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    implementation("com.opencsv:opencsv:5.5")
+    compileOnly('mysql:mysql-connector-java:8.0.32')
 }
 
 test {

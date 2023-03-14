@@ -2,15 +2,21 @@ package com.servlet.projetjavaee;
 
 import com.bdd.projetjavaee.Noms;
 import com.beans.projetjavaee.Eleve;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvValidationException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import jakarta.servlet.http.Part;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.servlet.http.Part;
+import java.util.StringTokenizer;
 
 import java.io.*;
 
@@ -20,6 +26,10 @@ public class Page1 extends HttpServlet {
 
     public static final int TAILLE_TAMPON = 10240;
     public static final String CHEMIN_FICHIERS = "D:/ESEO/E4/S8/FichiersProjetJavaEE/"; // A changer
+
+
+    public static final int TAILLE_TAMPON = 10240;
+    public static final String CHEMIN_FICHIERS = "C:\\Users\\adrie\\Downloads\\ProjetJavaEE\\CSV\\"; // A changer
 
 
     public Page1() {
@@ -38,6 +48,7 @@ public class Page1 extends HttpServlet {
         // TODO Auto-generated method stub
         String action = request.getParameter("bouton");
         System.out.println(action);
+        
         if("Valider".equals(action)) {
             Eleve eleve = new Eleve();
             eleve.setNom(request.getParameter("Nom"));
@@ -51,13 +62,11 @@ public class Page1 extends HttpServlet {
 
             request.setAttribute("eleves", tableNoms.recupererEleves());
 
-        }
-
-        else if ("Valider le fichier".equals(action)) {
-
+        } else if ("Cliquez".equals(action)) {
+        } else if ("Valider le fichier".equals(action)) {
             // On récupère le champ description comme d'habitude
             String description = request.getParameter("description");
-            request.setAttribute("description", description);
+            request.setAttribute("description", description );
 
             // On récupère le champ du fichier
             Part part = request.getPart("fichier");
@@ -73,22 +82,23 @@ public class Page1 extends HttpServlet {
                         .substring(nomFichier.lastIndexOf('\\') + 1);
 
                 // On écrit définitivement le fichier sur le disque
-                ecrireFichier(part, nomFichier, CHEMIN_FICHIERS);
-
+                ecrireFichier(part, nomFichier);
+                csvToEleve(part);
                 request.setAttribute(nomChamp, nomFichier);
             }
 
         }
-
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page1.jsp").forward(request, response);
     }
 
-    private void ecrireFichier( Part part, String nomFichier, String chemin ) throws IOException {
+    private void ecrireFichier( Part part, String nomFichier) throws IOException {
+    
         BufferedInputStream entree = null;
         BufferedOutputStream sortie = null;
         try {
             entree = new BufferedInputStream(part.getInputStream(), TAILLE_TAMPON);
-            sortie = new BufferedOutputStream(new FileOutputStream(new File(chemin + nomFichier)), TAILLE_TAMPON);
+
+            sortie = new BufferedOutputStream(new FileOutputStream(new File(CHEMIN_FICHIERS + nomFichier)), TAILLE_TAMPON);
 
             byte[] tampon = new byte[TAILLE_TAMPON];
             int longueur;
@@ -105,6 +115,47 @@ public class Page1 extends HttpServlet {
             } catch (IOException ignore) {
             }
         }
+    }
+    
+    private void csvToEleve(Part part){
+        String nomFichier = getNomFichier(part);
+        String adresse = CHEMIN_FICHIERS + nomFichier;
+        try {
+            CSVReader reader = new CSVReader(new FileReader(adresse));
+
+            // Lecture des lignes suivantes contenant les données
+            String[] ligne;
+            reader.readNext();
+            while ((ligne = reader.readNext()) != null) {
+                String nom = ligne[0];
+                String prenom = ligne[1];
+                String genre = ligne[2];
+                String site = ligne[3];
+                String formation = ligne[4];
+                eleves.add(new Eleve(nom, prenom, genre, site, formation));
+
+                // Affichage des informations extraites
+//                System.out.println("Nom : " + nom);
+//                System.out.println("Prenom : " + prenom);
+//                System.out.println("genre : " + genre);
+//                System.out.println("site : " + site);
+//                System.out.println("formation : " + formation);
+//                System.out.println();
+            }
+
+            // Fermeture du lecteur de fichier
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
+        }
+        suppFile(adresse);
+    }
+
+    private void suppFile(String adresse){
+        File file = new File(adresse);
+        file.delete();
     }
 
     private static String getNomFichier( Part part ) {
