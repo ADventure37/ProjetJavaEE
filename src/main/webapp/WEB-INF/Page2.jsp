@@ -89,11 +89,42 @@
     </c:forEach>
 </p>
 
+
 <form method="post" action="Page2">
     <font size="4"> Générer une composition des équipes aléatoire: </font>
     <input type = "submit" name="bouton" value="Génération automatique" />
 </form>
+
+<p>
+<form method="post" action="Page2">
+    <p style="font-weight: bold;">
+        <font size="4">Supprimer un élève</font>
+    </p>
+    <p>
+        <label for="SupprimerEl">Supprimer l'élève d'une liste: </label>
+        <select name="SupprimerEl" id="SupprimerEl">
+            <option value="">Sélectionner un eleve</option>
+            <c:forEach items="${ equipes }" var="equipe" varStatus="status">
+                <c:forEach items="${ equipe.eleves }" var="eleves" varStatus="status">
+                    <option value="${eleves.nom} ${eleves.prenom}">${eleves.nom} ${eleves.prenom} </option>
+                </c:forEach>
+            </c:forEach>
+
+    </p>
+        </select>
+        <input type = "submit" name="bouton" value="Valider la suppression d'élève(s)" />
+    </p>
+
+</form>
+</p>
+
+<p>
+    <p style="font-weight: bold;"><font size="4">Exporter les équipes au format CSV</font></p>
+    <input type = "submit" name= "bouton" value="Récupérer le fichier" />
+</p>
+
+
 <p><label for="page1">Page pour ajouter des élèves: </label>
-    <input type="button" id="page1" onclick="window.location.href = 'Page1';" value="Cliquez" /></p>
+    <input type="button" id="page1" onclick="window.location.href = 'Page1';" value="Aller à la page 1" /></p>
 </body>
 </html>

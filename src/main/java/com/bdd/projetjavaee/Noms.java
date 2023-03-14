@@ -143,6 +143,7 @@ public class Noms {
                     Eleves.add(Eleve);
                 }
             }
+
         } catch (SQLException e) {
         } finally {
             // Fermeture de la connexion
@@ -266,6 +267,21 @@ public class Noms {
             preparedStatement.setString(2, eleve.getNom());
             preparedStatement.setString(3, eleve.getPrenom());
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void supprimerEl(Eleve eleve) {
+        loadDatabase();
+        try {
+            System.out.println(eleve.getNom());
+            PreparedStatement preparedStatement = connexion.prepareStatement(
+                        "UPDATE eleve set idEquipe = null where nom = (?) and prenom = (?);");
+                preparedStatement.setString(1, eleve.getNom());
+                preparedStatement.setString(2, eleve.getPrenom());
+                preparedStatement.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

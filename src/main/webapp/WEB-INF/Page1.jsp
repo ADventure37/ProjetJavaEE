@@ -59,7 +59,7 @@
                 <option value="autre">Autre</option>
             </select>
         </p>
-        <p><input type = "submit" name= "bouton" value="Valider" /></p>
+            <p><input type = "submit" name= "bouton" value="Valider" /></p>
         </form>
 
         <c:if test="${ !empty fichier }">
@@ -86,13 +86,8 @@
 
         <p>
             <label for="page2">Page pour gérer les équipes: </label>
-            <input type="button" name = "bouton" id="page2" onclick="window.location.href = 'Page2';" value="Cliquez" /></p>
-
-        <ul>
-            <c:forEach var="utilisateur" items="${ utilisateurs }">
-                <li><c:out value="${ utilisateur.prenom }" /> <c:out value="${ utilisateur.nom }" /></li>
-            </c:forEach>
-        </ul>
+            <input type="button" name = "bouton" id="page2" onclick="window.location.href = 'Page2';" value="Aller à la page 2" />
+        </p>
 
     </body>
 </html>
