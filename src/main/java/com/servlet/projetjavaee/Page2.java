@@ -43,6 +43,7 @@ public class Page2 extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         String action = request.getParameter("bouton");
+        System.out.println(action);
         if(action.equals("Créer les équipes")){
             String nbEquipe = request.getParameter("Nombre");
             createXEquipe(nbEquipe);
@@ -70,7 +71,33 @@ public class Page2 extends HttpServlet{
                     }
                 }
             }
-
+        } else if (action.equals("Génération automatique")) {
+            Noms tableNoms = new Noms();
+            List<Eleve> eleves = tableNoms.recupererEleves();
+            List<Equipe> equipes = tableNoms.recupererEquipes();
+            int nbEquipe = equipes.size();
+            int nbEleve = eleves.size();
+            if(nbEleve<nbEquipe){
+                nbEquipe = nbEleve;
+            }
+            int div = nbEleve/nbEquipe;
+            double rest = nbEleve%nbEquipe;
+            for(int i =1;i<=nbEquipe;i++){
+                for(int j = 0; j<nbEleve;j++){
+                    if(j/div < i && j/div >= i-1){
+                        tableNoms.ajouterAEquipe(i, eleves.get(j));
+                    }
+                }
+            }
+            if(rest!=0) {
+                int val1 = (int) rest;
+                for (int j = 0; j < val1; j++) {
+                    Eleve e = eleves.get(j+div*nbEquipe);
+                    String nom = e.getNom();
+                    int equipe = j+1;
+                    tableNoms.ajouterAEquipe(equipe, e);
+                }
+            }
         } else if (action.equals("Valider la suppression d'élève(s)")) {
             String eleve = request.getParameter("SupprimerEl");
 
@@ -87,6 +114,7 @@ public class Page2 extends HttpServlet{
 
         } else if (action.equals("Récupérer le fichier")) {
             writeCsv("fichier_csv");
+
         }
         Noms tableNoms = new Noms();
         request.setAttribute("equipes", tableNoms.recupererEquipes());

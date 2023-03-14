@@ -89,6 +89,12 @@
     </c:forEach>
 </p>
 
+
+<form method="post" action="Page2">
+    <font size="4"> Générer une composition des équipes aléatoire: </font>
+    <input type = "submit" name="bouton" value="Génération automatique" />
+</form>
+
 <p>
 <form method="post" action="Page2">
     <p style="font-weight: bold;">
@@ -116,6 +122,7 @@
     <p style="font-weight: bold;"><font size="4">Exporter les équipes au format CSV</font></p>
     <input type = "submit" name= "bouton" value="Récupérer le fichier" />
 </p>
+
 
 <p><label for="page1">Page pour ajouter des élèves: </label>
     <input type="button" id="page1" onclick="window.location.href = 'Page1';" value="Aller à la page 1" /></p>

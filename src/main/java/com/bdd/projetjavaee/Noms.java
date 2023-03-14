@@ -15,6 +15,53 @@ import com.beans.projetjavaee.Equipe;
 public class Noms {
     private Connection connexion;
 
+    public List<Eleve> recupererEleves() {
+        List<Eleve> Eleves = new ArrayList<Eleve>();
+        Statement statement = null;
+        ResultSet resultat = null;
+
+        loadDatabase();
+
+        try {
+            statement = connexion.createStatement();
+
+            // Exécution de la requête
+            resultat = statement.executeQuery(
+                    "SELECT nom, prenom, genre, sitePrecedent, formationPrecedente FROM eleve ;");
+
+            // Récupération des données
+            while (resultat.next()) {
+                String nom = resultat.getString("nom");
+                String prenom = resultat.getString("prenom");
+                String genre = resultat.getString("genre");
+                String sitePrecedent = resultat.getString("sitePrecedent");
+                String formationPrecedente = resultat.getString("formationPrecedente");
+
+                Eleve Eleve = new Eleve();
+                Eleve.setNom(nom);
+                Eleve.setPrenom(prenom);
+                Eleve.setGenre(genre);
+                Eleve.setSitePrecedent(sitePrecedent);
+                Eleve.setFormationPrecedente(formationPrecedente);
+
+                Eleves.add(Eleve);
+            }
+        } catch (SQLException e) {
+        } finally {
+            // Fermeture de la connexion
+            try {
+                if (resultat != null)
+                    resultat.close();
+                if (statement != null)
+                    statement.close();
+                if (connexion != null)
+                    connexion.close();
+            } catch (SQLException ignore) {
+            }
+        }
+
+        return Eleves;
+    }
     public List<Eleve> recupererElevesS() {
         List<Eleve> Eleves = new ArrayList<Eleve>();
         Statement statement = null;
@@ -96,7 +143,7 @@ public class Noms {
                     Eleves.add(Eleve);
                 }
             }
-            //System.out.println(Eleves);
+
         } catch (SQLException e) {
         } finally {
             // Fermeture de la connexion
@@ -134,7 +181,6 @@ public class Noms {
 
                 Equipe e = new Equipe(nom);
                 e.setId(id);
-                //System.out.println(recupererElevesEq(e.getId()));
                 e.setEleves(recupererElevesEq(e.getId()));
                 equipes.add(e);
             }
