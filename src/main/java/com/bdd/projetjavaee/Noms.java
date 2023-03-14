@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.beans.projetjavaee.Eleve;
+import com.beans.projetjavaee.Equipe;
 
 public class Noms {
     private Connection connexion;
@@ -61,6 +62,44 @@ public class Noms {
         return Eleves;
     }
 
+    public List<Equipe> recupererEquipes() {
+        List<Equipe> equipes = new ArrayList<Equipe>();
+        Statement statement = null;
+        ResultSet resultat = null;
+
+        loadDatabase();
+
+        try {
+            statement = connexion.createStatement();
+
+            // Exécution de la requête
+            resultat = statement.executeQuery("SELECT nom FROM equipe;");
+
+            // Récupération des données
+            while (resultat.next()) {
+                String nom = resultat.getString("nom");
+
+                Equipe e = new Equipe(nom);
+
+                equipes.add(e);
+            }
+        } catch (SQLException e) {
+        } finally {
+            // Fermeture de la connexion
+            try {
+                if (resultat != null)
+                    resultat.close();
+                if (statement != null)
+                    statement.close();
+                if (connexion != null)
+                    connexion.close();
+            } catch (SQLException ignore) {
+            }
+        }
+
+        return equipes;
+    }
+
     private void loadDatabase() {
         // Chargement du driver
         try {
@@ -79,7 +118,8 @@ public class Noms {
         loadDatabase();
 
         try {
-            PreparedStatement preparedStatement = connexion.prepareStatement("INSERT INTO eleve(nom, prenom, genre, sitePrecedent, formationPrecedente) VALUES(?, ?, ?, ?, ?);");
+            PreparedStatement preparedStatement = connexion.prepareStatement(
+                    "INSERT INTO eleve(nom, prenom, genre, sitePrecedent, formationPrecedente) VALUES(?, ?, ?, ?, ?);");
             preparedStatement.setString(1, Eleve.getNom());
             preparedStatement.setString(2, Eleve.getPrenom());
             preparedStatement.setString(3, Eleve.getGenre());
@@ -91,4 +131,31 @@ public class Noms {
             e.printStackTrace();
         }
     }
+
+    public void ajouterEquipe(Equipe equipe){
+        loadDatabase();
+        try {
+            PreparedStatement preparedStatement = connexion.prepareStatement("" +
+                    "INSERT INTO equipe(nom) VALUES(?);");
+            preparedStatement.setString(1, equipe.getNom());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void modifNomEq(String ancienNom, String nouveauNom){
+        loadDatabase();
+        try {
+            PreparedStatement preparedStatement = connexion.prepareStatement(
+                    "UPDATE equipe set nom = (?) where nom = (?);");
+            preparedStatement.setString(1, nouveauNom);
+            preparedStatement.setString(2, ancienNom);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -7,9 +7,8 @@ public class Equipe {
     private String nom;
     private int id;
 
-    public Equipe(int id, String nom){
+    public Equipe(String nom){
         this.setNom(nom);
-        this.setId(id);
     }
 
     public String getNom() {

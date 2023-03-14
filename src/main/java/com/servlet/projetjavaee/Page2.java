@@ -1,5 +1,6 @@
 package com.servlet.projetjavaee;
 
+import com.bdd.projetjavaee.Noms;
 import com.beans.projetjavaee.Eleve;
 import com.beans.projetjavaee.Equipe;
 import jakarta.servlet.ServletException;
@@ -18,8 +19,6 @@ import java.util.List;
 @WebServlet(name = "Page2", value = "/Page2")
 public class Page2 extends HttpServlet{
     private static final long serialVersionUID = 1L;
-    private List<Equipe> equipes = new ArrayList<Equipe>();
-    private List<Eleve> eleves = new ArrayList<Eleve>();
 
 
     public Page2() {
@@ -45,25 +44,26 @@ public class Page2 extends HttpServlet{
         } else if (action.equals("Modifier le nom d'équipe")) {
             String ancien = request.getParameter("ChangerN");
             String nouveau = request.getParameter("Nouveau Nom");
-            for(Equipe e :equipes){
-                if(e.getNom().equals(ancien.trim())){
-                    e.setNom(nouveau);
-                }
-            }
+            Noms tableNoms = new Noms();
+            tableNoms.modifNomEq(ancien, nouveau);
+
         } else if (action.equals("Valider l'assignation")) {
             String equipe = request.getParameter("AssignerEq");
             String eleve = request.getParameter("AssignerEl");
         }
-        request.setAttribute("equipes", equipes);
+        Noms tableNoms = new Noms();
+        request.setAttribute("equipes", tableNoms.recupererEquipes());
+        request.setAttribute("eleves", tableNoms.recupererEleves());
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page2.jsp").forward(request, response);
     }
 
     private void createXEquipe(String x){
         try{
+            Noms tableNoms = new Noms();
             int nombre = Integer.parseInt(x);
-            int nb = equipes.size();
+            int nb = tableNoms.recupererEquipes().size();
             for(int i=nb+1; i< nombre+ nb+1; i++){
-                equipes.add(new Equipe(i,"Equipe " + i));
+                tableNoms.ajouterEquipe(new Equipe("Equipe " + i));
             }
         }
         catch (NumberFormatException ex){
@@ -71,11 +71,4 @@ public class Page2 extends HttpServlet{
         }
     }
 
-    public List<Equipe> getEquipes() {
-        return equipes;
-    }
-
-    public void setEquipes(List<Equipe> equipes) {
-        this.equipes = equipes;
-    }
 }

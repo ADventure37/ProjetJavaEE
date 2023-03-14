@@ -65,7 +65,7 @@
             <label for="AssignerEl">Choisir un élève:</label>
             <select name="AssignerEl" id="AssignerEl">
                 <option value="">Sélectionner un élève</option>
-                <c:forEach items="${ sessionScope.eleves }" var="eleves" varStatus="status">
+                <c:forEach items="${ eleves }" var="eleves" varStatus="status">
                     <p>
                         <option value="${ eleves.nom } ${eleves.prenom}">${ eleves.nom } ${eleves.prenom}</option>
                     </p>
@@ -78,7 +78,7 @@
 
 <p style="font-weight: bold;">
     <font size="4"> Liste des élèves sans équipe: </font>
-    <c:forEach items="${ sessionScope.eleves }" var="eleves" varStatus="status">
+    <c:forEach items="${ eleves }" var="eleves" varStatus="status">
             <p>
                 <c:out value="${ eleves.nom } ${eleves.prenom} ${eleves.equipe}" />
             </p>
