@@ -59,7 +59,7 @@
                 <option value="autre">Autre</option>
             </select>
         </p>
-        <p><input type = "submit" name= "bouton" value="Valider" /></p>
+            <p><input type = "submit" name= "bouton" value="Valider" /></p>
         </form>
 
         <c:if test="${ !empty fichier }">

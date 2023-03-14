@@ -3,6 +3,7 @@ package com.servlet.projetjavaee;
 import com.bdd.projetjavaee.Noms;
 import com.beans.projetjavaee.Eleve;
 import com.beans.projetjavaee.Equipe;
+import com.opencsv.CSVWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,6 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.Console;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ import java.util.List;
 public class Page2 extends HttpServlet{
     private static final long serialVersionUID = 1L;
 
+    public static final String CHEMIN_FICHIERS = "D:/ESEO/E4/S8/FichiersProjetJavaEE/"; // A changer
 
     public Page2() {
 
@@ -66,6 +70,23 @@ public class Page2 extends HttpServlet{
                     }
                 }
             }
+
+        } else if (action.equals("Valider la suppression d'élève(s)")) {
+            String eleve = request.getParameter("SupprimerEl");
+
+            String[] split = eleve.split(" ");
+            String nom = split[0];
+            String prenom = split[1];
+
+            Eleve el = new Eleve();
+            el.setNom(nom);
+            el.setPrenom(prenom);
+
+            Noms tableNoms = new Noms();
+            tableNoms.supprimerEl(el);
+
+        } else if (action.equals("Récupérer le fichier")) {
+            writeCsv("fichier_csv");
         }
         Noms tableNoms = new Noms();
         request.setAttribute("equipes", tableNoms.recupererEquipes());
@@ -84,6 +105,27 @@ public class Page2 extends HttpServlet{
         }
         catch (NumberFormatException ex){
             ex.printStackTrace();
+        }
+    }
+
+    private void writeCsv(String nomFichier) {
+        File file = new File(CHEMIN_FICHIERS + nomFichier);
+
+        try {
+            FileWriter outputfile = new FileWriter(file);
+
+            CSVWriter writer = new CSVWriter(outputfile);
+
+            List<String[]> data = new ArrayList<String[]>();
+            data.add(new String[] { "Name", "Class", "Marks" });
+            data.add(new String[] { "Aman", "10", "620" });
+            data.add(new String[] { "Suraj", "10", "630" });
+            writer.writeAll(data);
+
+            writer.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
         }
     }
 
