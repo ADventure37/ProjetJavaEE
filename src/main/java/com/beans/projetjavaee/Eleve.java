@@ -8,6 +8,15 @@ public class Eleve {
     private String formationPrecedente;
     private String equipe;
 
+    public Eleve(){
+        this.setPrenom(null);
+        this.setPrenom(null);
+        this.setGenre(null);
+        this.setSitePrecedent(null);
+        this.setFormationPrecedente(null);
+        this.setEquipe(null);
+    }
+
     public Eleve(String nom, String prenom, String genre, String sitePrecedent, String formationPrecedente){
         this.setNom(nom);
         this.setPrenom(prenom);
