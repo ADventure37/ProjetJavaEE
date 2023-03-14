@@ -11,6 +11,7 @@
         <meta charset="utf-8" />
         <title>Page 1</title>
         <h1><%= "Bienvenue!" %></h1>
+
     </head>
 
     <body>
@@ -61,8 +62,13 @@
         <p><input type = "submit" name= "bouton" value="Valider" /></p>
         </form>
 
+        <c:if test="${ !empty fichier }">
+            <p><c:out value="Le fichier ${ fichier } (${ description }) a été uploadé !" /></p>
+        </c:if>
+
         <p style="font-weight: bold;">
             <font size="4"> Veuillez indiquer le document d'insertion! </font></p>
+
         <form method="post" action="Page1" enctype="multipart/form-data">
             <p>
                 <label for="description">Description du fichier</label>
@@ -74,8 +80,8 @@
                        id="fichier" name="fichier"
                        accept=".csv" onchange="checkfile(this)">
             </p>
-            <p><input type = "submit" name= "bouton" value="Valider le fichier" /></p>
 
+            <p><input type = "submit" name= "bouton" value="Valider le fichier" /></p>
 
         </form>
 
@@ -84,6 +90,12 @@
             <label for="page2">Page pour gérer les équipes: </label>
             <input type="button" id="page2" onclick="window.location.href = 'Page2';" value="Cliquez" /></p>
         </form>
+
+        <ul>
+            <c:forEach var="utilisateur" items="${ utilisateurs }">
+                <li><c:out value="${ utilisateur.prenom }" /> <c:out value="${ utilisateur.nom }" /></li>
+            </c:forEach>
+        </ul>
 
     </body>
 </html>

@@ -1,5 +1,6 @@
 package com.servlet.projetjavaee;
 
+import com.bdd.projetjavaee.Noms;
 import com.beans.projetjavaee.Eleve;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
@@ -13,14 +14,19 @@ import jakarta.servlet.http.Part;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.servlet.http.Part;
 import java.util.StringTokenizer;
 
-
+import java.io.*;
 
 @WebServlet(name = "Page1", value = "/Page1")
-public class Page1 extends HttpServlet{
+public class Page1 extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private List<Eleve> eleves = new ArrayList<Eleve>();
+
+    public static final int TAILLE_TAMPON = 10240;
+    public static final String CHEMIN_FICHIERS = "D:/ESEO/E4/S8/FichiersProjetJavaEE/"; // A changer
+
 
     public static final int TAILLE_TAMPON = 10240;
     public static final String CHEMIN_FICHIERS = "C:\\Users\\adrie\\Downloads\\ProjetJavaEE\\CSV\\"; // A changer
@@ -32,7 +38,8 @@ public class Page1 extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
+        Noms tableNoms = new Noms();
+        request.setAttribute("eleves", tableNoms.recupererEleves());
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page1.jsp").forward(request, response);
     }
 
@@ -40,14 +47,20 @@ public class Page1 extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         String action = request.getParameter("bouton");
-        if("Valider".equals(action)){
-            String nom = request.getParameter("Nom");
-            String prenom = request.getParameter("Prenom");
-            String genre = request.getParameter("genre");
-            String site = request.getParameter("sitePrecedent");
-            String formation = request.getParameter("formationPrecedente");
-            eleves.add(new Eleve(nom, prenom, genre, site, formation));
+        System.out.println(action);
+        
+        if("Valider".equals(action)) {
+            Eleve eleve = new Eleve();
+            eleve.setNom(request.getParameter("Nom"));
+            eleve.setPrenom(request.getParameter("Prenom"));
+            eleve.setGenre(request.getParameter("genre"));
+            eleve.setSitePrecedent(request.getParameter("sitePrecedent"));
+            eleve.setFormationPrecedente(request.getParameter("formationPrecedente"));
 
+            Noms tableNoms = new Noms();
+            tableNoms.ajouterEleve(eleve);
+
+            request.setAttribute("eleves", tableNoms.recupererEleves());
 
         } else if ("Cliquez".equals(action)) {
         } else if ("Valider le fichier".equals(action)) {
@@ -75,16 +88,16 @@ public class Page1 extends HttpServlet{
             }
 
         }
-        request.getSession().setAttribute("eleves", eleves);
-        System.out.println(eleves);
         this.getServletContext().getRequestDispatcher("/WEB-INF/Page1.jsp").forward(request, response);
     }
 
     private void ecrireFichier( Part part, String nomFichier) throws IOException {
+    
         BufferedInputStream entree = null;
         BufferedOutputStream sortie = null;
         try {
             entree = new BufferedInputStream(part.getInputStream(), TAILLE_TAMPON);
+
             sortie = new BufferedOutputStream(new FileOutputStream(new File(CHEMIN_FICHIERS + nomFichier)), TAILLE_TAMPON);
 
             byte[] tampon = new byte[TAILLE_TAMPON];
@@ -103,16 +116,7 @@ public class Page1 extends HttpServlet{
             }
         }
     }
-
-    private static String getNomFichier( Part part ) {
-        for ( String contentDisposition : part.getHeader( "content-disposition" ).split( ";" ) ) {
-            if ( contentDisposition.trim().startsWith( "filename" ) ) {
-                return contentDisposition.substring( contentDisposition.indexOf( '=' ) + 1 ).trim().replace( "\"", "" );
-            }
-        }
-        return null;
-    }
-
+    
     private void csvToEleve(Part part){
         String nomFichier = getNomFichier(part);
         String adresse = CHEMIN_FICHIERS + nomFichier;
@@ -153,11 +157,13 @@ public class Page1 extends HttpServlet{
         File file = new File(adresse);
         file.delete();
     }
-    public List<Eleve> getEleves() {
-        return eleves;
-    }
 
-    public void setEleves(List<Eleve> eleves) {
-        this.eleves = eleves;
+    private static String getNomFichier( Part part ) {
+        for ( String contentDisposition : part.getHeader( "content-disposition" ).split( ";" ) ) {
+            if ( contentDisposition.trim().startsWith( "filename" ) ) {
+                return contentDisposition.substring( contentDisposition.indexOf( '=' ) + 1 ).trim().replace( "\"", "" );
+            }
+        }
+        return null;
     }
 }
