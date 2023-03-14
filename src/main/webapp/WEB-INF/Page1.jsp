@@ -80,16 +80,13 @@
                        id="fichier" name="fichier"
                        accept=".csv" onchange="checkfile(this)">
             </p>
-
             <p><input type = "submit" name= "bouton" value="Valider le fichier" /></p>
 
         </form>
 
-        <form method="post" action="Page1">
         <p>
             <label for="page2">Page pour gérer les équipes: </label>
-            <input type="button" id="page2" onclick="window.location.href = 'Page2';" value="Cliquez" /></p>
-        </form>
+            <input type="button" name = "bouton" id="page2" onclick="window.location.href = 'Page2';" value="Cliquez" /></p>
 
         <ul>
             <c:forEach var="utilisateur" items="${ utilisateurs }">

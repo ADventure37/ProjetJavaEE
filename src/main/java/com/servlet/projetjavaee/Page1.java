@@ -23,13 +23,8 @@ import java.io.*;
 @WebServlet(name = "Page1", value = "/Page1")
 public class Page1 extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
     public static final int TAILLE_TAMPON = 10240;
-    public static final String CHEMIN_FICHIERS = "D:/ESEO/E4/S8/FichiersProjetJavaEE/"; // A changer
-
-
-    public static final int TAILLE_TAMPON = 10240;
-    public static final String CHEMIN_FICHIERS = "C:\\Users\\adrie\\Downloads\\ProjetJavaEE\\CSV\\"; // A changer
+    public static final String CHEMIN_FICHIERS = "C:\\Users\\User\\Desktop\\Intellij\\ProjetJavaEE\\CSV\\"; // A changer
 
 
     public Page1() {
@@ -132,7 +127,9 @@ public class Page1 extends HttpServlet {
                 String genre = ligne[2];
                 String site = ligne[3];
                 String formation = ligne[4];
-                eleves.add(new Eleve(nom, prenom, genre, site, formation));
+                Eleve e  = new Eleve(nom, prenom, genre, site, formation);
+                Noms tableNoms = new Noms();
+                tableNoms.ajouterEleve(e);
 
                 // Affichage des informations extraites
 //                System.out.println("Nom : " + nom);

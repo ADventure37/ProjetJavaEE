@@ -69,7 +69,7 @@ public class Noms {
         }
 
         try {
-            connexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaee", "root", "password");
+            connexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaee", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
